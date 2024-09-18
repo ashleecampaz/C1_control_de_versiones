@@ -17,7 +17,10 @@
  *
  * @return Resultado de la operacion
  */
-return_code create_version(char * filename, char * comment, file_version * result);
+return_code create_version(char * filename, char * comment, file_version * result){
+
+
+}
 
 /**
  * @brief Verifica si existe una version para un archivo
@@ -82,23 +85,34 @@ int add_new_version(file_version * v);
 return_code create_version(char * filename, char * comment, file_version * result) {
 
 	// Llena a estructura result recibida por referencia.
+		
 	// Debe validar:
+		
 	// 1. Que el archivo exista y sea un archivo regular
+	|		stat s;
+			int result_s = stat(filename,&s);
+			if (result_s<0 || !S_ISREG(s.st_mode)){
+				return VERSION_ERROR;
+			}
 	// 2. Obtiene y guarda en la estructura el HASH del archivo
+		char hash;
+		result->filename=filename;
+		result->hash=get_file_hash(filename,&hash);
+		result->comment=comment;
 	// Llena todos los atributos de la estructura y retorna VERSION_CREATED
 	// En caso de fallar alguna validacion, retorna VERSION_ERROR
 
-	return VERSION_ERROR;
+	return VERSION_CREATED;
 
 }
 
 return_code add(char * filename, char * comment) {
 
-	file_version v;
+	file_version *v= sizeof(file_version);
 
 	// 1. Crea la nueva version en memoria
 	// Si la operacion falla, retorna VERSION_ERROR
-	// create_version(filename, comment, &v)
+	create_version(filename, comment, v);
 
 	// 2. Verifica si ya existe una version con el mismo hash
 	// Retorna VERSION_ALREADY_EXISTS si ya existe
@@ -159,6 +173,12 @@ int copy(char * source, char * destination) {
 int version_exists(char * filename, char * hash) {
 
 	// Verifica si en la bd existe un registro que coincide con filename y hash
+	FILE fp = fopen(".versions/version.db","r");
+		if (fp==NULL)
+				return 0;
+	while(!feof(fp) && ){
+
+	}
 	return 1;
 }
 
