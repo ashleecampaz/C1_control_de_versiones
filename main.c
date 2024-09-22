@@ -33,12 +33,15 @@ int main(int argc, char *argv[]) {
 
 	// Crea el archivo .versions/versions.db si no existe
 	if (stat(VERSIONS_DB_PATH, &s) != 0) {
+		printf("I AM HERE");
 		creat(VERSIONS_DB_PATH, 0755);
+		printf("I AM HERE2");
 	}
 
 	// Validar argumentos de linea de comandos
 	if (argc == 4
 			&& EQUALS(argv[1], "add")) {
+		
 		if (add(argv[2], argv[3]) == VERSION_ERROR) {
 			fprintf(stderr, "No se puede adicionar %s\n", argv[2]);
 		}
